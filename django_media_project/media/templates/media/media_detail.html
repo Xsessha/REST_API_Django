@@ -1,0 +1,52 @@
+{% extends "media/base.html" %}
+
+{% block title %}{{ media.title }} - Media{% endblock %}
+
+{% block content %}
+<h1>{{ media.title }}</h1>
+
+<div class="media-item">
+    <div class="media-title">{{ media.title }}</div>
+    
+    {% if media.description %}
+    <div class="media-description">
+        {{ media.description }}
+    </div>
+    {% endif %}
+    
+    {% if media.url %}
+    <div>
+        <strong>URL:</strong>
+        <a href="{{ media.url }}" target="_blank" class="media-url">{{ media.url }}</a>
+    </div>
+    {% endif %}
+    
+    <div style="margin-top: 10px; color: #999; font-size: 0.9em;">
+        Created: {{ media.created_at|date:"Y-m-d H:i" }}
+    </div>
+</div>
+
+<h2>Comments</h2>
+
+{% if comment %}
+<div class="comment">
+    <div class="comment-author">{{ comment.author }}</div>
+    <div class="comment-text">{{ comment.text }}</div>
+    <div class="comment-date">{{ comment.created_at|date:"Y-m-d H:i" }}</div>
+</div>
+{% else %}
+<div class="no-comment">
+    No comments for this media yet.
+</div>
+{% endif %}
+
+<div class="nav-links">
+    <a href="{% url 'media:media_list' %}">← Back to all media</a>
+    {% if prev_index is not None %}
+        <a href="{% url 'media:media_detail' prev_index %}">← Previous</a>
+    {% endif %}
+    {% if next_index is not None %}
+        <a href="{% url 'media:media_detail' next_index %}">Next →</a>
+    {% endif %}
+</div>
+{% endblock %}
